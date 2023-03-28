@@ -12,7 +12,7 @@ jobs:
         run: git clone https://github.com/kiatp/math24.git
 
       - name: cd to Directory image
-        run: cd image
+        run: cd math24/image
 
       - name: docker login
         run: docker login -u kiatp -p ${{ secrets.DOCKER_KIATP }}
