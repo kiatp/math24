@@ -1,0 +1,14 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    name: {{ .Values.labels.app }} #app-kiatp
+  name: hpa-kiatp
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: deployment-web
+  minReplicas: {{ .Values.minReplicas }}
+  maxReplicas: {{ .Values.maxReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.targetCPUUtilizationPercentage }}

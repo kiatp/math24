@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-kiatp
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: kiatp.project.lab
+    http:
+      paths:
+      - pathType: Prefix
+        backend:
+          service:
+            name: service-clusterip
+            port:
+              number: 3000
+        path: /index

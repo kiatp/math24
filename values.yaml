@@ -1,0 +1,27 @@
+labels:
+  app: app-kiatp
+
+selector:
+    app: app-kiatp
+
+minReplicas: 1
+maxReplicas: 2
+targetCPUUtilizationPercentage: 20
+
+spec:
+  replicas: 1
+
+containers:
+  image: kiatp/project-lab:4.0.0
+
+limits:
+  memory: 512Mi
+  cpu: 210m
+requests:
+  memory: 256Mi
+  cpu: 200m
+
+ingressClassName: nginx
+service:
+  name: service-clusterip
+path: /index  

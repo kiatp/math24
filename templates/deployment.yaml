@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-web
+  labels:
+    app: {{ .Values.labels.app }}
+spec:
+  replicas: {{ .Values.spec.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.labels.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.labels.app }}
+    spec:
+      volumes:
+      - name: pvcweb
+        persistentVolumeClaim:
+          claimName: pvc-kiatp
+      - name: kiatp-config
+        configMap:
+          name: kiatp-configmap
+          items:
+            - key: mysql.cnf
+              path: mysql.cnf
+      containers:
+      - name: app-random
+        image: {{ .Values.containers.image }}
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            memory: {{ .Values.limits.memory }}
+            cpu: {{ .Values.limits.cpu }}
+          requests:
+            memory: {{ .Values.requests.memory }}
+            cpu: {{ .Values.requests.cpu }}
+        volumeMounts:
+          - mountPath: /etc/mysql/conf.d
+            readOnly: true
+            name: kiatp-config         
+          - name: pvcweb
+            mountPath: /apps/storage
