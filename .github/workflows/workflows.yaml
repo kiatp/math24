@@ -11,14 +11,13 @@ jobs:
       - name: git checkout
         run: git clone https://github.com/kiatp/math24.git
 
-      - name: cd to Directory image
-        run: cd math24/image
-
       - name: docker login
         run: docker login -u kiatp -p ${{ secrets.DOCKER_KIATP }}
 
       - name: build image
-        run: docker build -t project-lab:5.0.0 .
+        run: |
+          cd math24/image
+          docker build -t project-lab:5.0.0 .
 
       - name: docker tag
         run: docker tag project-lab:5.0.0 kiatp/project-lab:5.0.0
